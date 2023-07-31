@@ -1,0 +1,361 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+        font-family: 'Montserrat',sans-serif;
+        line-height: 2em;
+        color: #333;
+        font-weight: 400;
+        letter-spacing: 0.025em;
+    }
+    
+
+img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+h1 {
+    color: #39483a;
+    padding: 2rem;
+}
+
+span {
+    font-weight: normal;
+}
+
+/* Nav */
+
+a {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #39483a;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    padding: .5rem 1rem;
+    border-radius: 15px;
+    margin-top: 1rem;
+    margin-right: 10px;
+    border: none;
+    background-color: #556856;
+    color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+button:hover {
+    background-color: #39483a;
+    cursor: pointer;
+}
+
+input {
+    margin-right: 10px;
+    margin-bottom: 20px;
+    padding: .5rem;
+    border-radius: 15px;
+    border: none;
+    background-color: #c9d4c9;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    outline: 1px solid #39483a;
+}
+
+label {
+    margin-right: 10px;
+}
+
+.navWrapper {
+    width: 100%;
+    min-height: 107px;
+    background-color: #39483a;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.navWrapper img, footer img {
+    max-width: 15em;
+    cursor: pointer;
+}
+
+.navWrapper a {
+    color: #fff
+}
+
+.logo a {
+    color: #40513B;
+}
+
+.navigation a.active_link {
+    color: #40513B;
+    background-color: #fff;
+    padding: .5rem;
+    border-radius: 15px;
+}
+
+.navigation a {
+    margin: 0px 10px;
+}
+
+.navigation a:last-child {
+    margin-right: 0;
+
+}
+
+.bonsaiCard img {
+    max-width: 700px;
+    max-height: 700px;
+}
+
+/* Home */
+
+.home {
+    width: 100%;
+    padding: 2rem;
+}
+
+
+.home h3 {
+    margin-top: 2rem;
+}
+
+.home section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.home section h4 {
+    margin: 2rem;
+}
+
+.home section div {
+    display: flex;
+    padding-right: 2rem;
+}
+
+.home section div .desc {
+    display: flex;
+    flex-direction: column;
+}
+
+.home section div img {
+    height: 450px;
+    width: 300px;
+    border-radius: 20px;
+}
+
+.home section div p {
+    margin-top: 1rem;
+}
+
+/* ButterflyCollection */
+
+.butterfly-collection, .plant-collection {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.butterfly-collection h1, .plant-collection h1{
+    padding: 2rem;
+}
+
+.butterfly-container, .plant-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+/* ButterflyCard */
+
+.butterfly-card, .plant-card{
+    margin: 1rem;
+}
+
+.butterfly-wrapper .details, .plant-wrapper .details {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+}
+
+.butterfly-wrapper .details div, .plant-wrapper .details div  {
+    display: flex;
+}
+
+
+
+.butterfly-wrapper .details p, .plant-wrapper .details p {
+    font-style: italic;
+    margin-right: .5rem;
+    color: #333;
+    font-size: 10px;
+}
+
+.butterfly-wrapper .details h4, .plant-wrapper .details h4 {
+    color: #333;
+    font-size: 12px;
+}
+
+.image-container {
+    height: 200px;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    overflow: hidden; /* Ensure the image stays within the container */
+}
+
+.image-container:hover {
+    border: 1px solid orange;
+}
+
+.butterfly-img, .plant-img{
+    /* Optionally, you can add additional styles to the image */
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease-in-out;
+    object-fit: cover; /* To make sure the image covers the container without stretching */
+  }
+
+  .butterfly-img:hover, .plant-img:hover  {
+    transform: scale(1.2);
+  }
+
+  /* Butterfly-details */
+
+  .butterfly-details {
+    padding: 0 2rem;
+    padding-top: 2rem;
+  }
+  .butterfly-details img {
+    max-width: 700px;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+  .tags-container, .buttons, .tag-div, .tags-input{
+    padding-left: 2rem;
+  }
+
+  .edit-btn:hover {
+    background-color: orange;
+  }
+
+  .delete-btn:hover, .cancel-btn:hover
+  {
+    background-color: red;
+  }
+
+/* EditButterfly */
+.edit-butterfly {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-butterfly form, .plant-form form, .butterfly-form form, .authentication form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.edit-butterfly form input, .plant-form form input, .butterfly-form form input, .authentication form input {
+    width: 500px;
+}
+
+.edit-butterfly .cancel-btn {
+    width: 110px;
+    align-self: center;
+}
+
+.submit-btn:hover, .tag-btn:hover, .add-to-garden button:hover {
+    background-color: green;
+}
+
+/* AddToGarden */
+.add-to-garden {
+    padding: 2rem;
+    height: 100vh;
+}
+
+.add-to-garden span {
+    margin-right: 10px;
+}
+
+/* Authentication */
+
+.authentication {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.authentication form {
+    margin-top: 2rem;
+    background-color: #c9d4c9;
+    padding: 2rem;
+    border-radius: 20px;
+}
+
+.authentication form input {
+    background-color: #fff;
+}
+
+.authentication .sign-up {
+    display: flex;
+    margin-top: 5px;
+}
+
+.authentication .sign-up button {
+    margin-top: 0;
+    background-color: transparent;
+    color: #39483a;
+    box-shadow: none;
+    text-decoration: underline;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Footer */
+footer {
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #39483a;
+    color: white;
+}
+
+.social-media, .social-media ul {
+    display: flex;
+}
+
+.social-media h3 {
+    margin-right: 10px;
+}
+
+ul {
+    list-style: none;
+}
+
+ul li {
+    margin-right: 10px;
+}
+
+
