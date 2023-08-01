@@ -2,7 +2,7 @@
   "name": "phase-4-project",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:10000",
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
