@@ -25,6 +25,9 @@ class Signup(Resource):
             return {"error": "User already exists"}, 409
 
         try:
+            password = form_json["password"]
+            User().validate_password(password)
+
             new_user = User(
                 email=form_json["email"],
                 first_name=form_json["first_name"],
@@ -33,7 +36,7 @@ class Signup(Resource):
                 phone_number=form_json["phone_number"],
                 is_admin=form_json["is_admin"],
             )
-            new_user.password_hash = form_json["password"]
+            new_user.password_hash = password
             db.session.add(new_user)
             db.session.commit()
             # Store the user ID in the session
@@ -202,121 +205,140 @@ class Reviews(Resource):
     def get(self, id):
         grocery = Grocery.query.get(id)
         if not grocery:
-            return {"error": "The grocery item you are looking for cannot be found"}, 404
+            return {
+                "error": "The grocery item reviews you are looking for cannot be found"
+            }, 404
 
         review_list = [r.to_dict() for r in grocery.reviews]
         response = make_response(review_list, 200)
 
         return response
 
-    def post(self):
+    def post(self, id):
+        grocery = Grocery.query.get(id)
         form_json = request.get_json()
         try:
             new_review = Review(
-                name=form_json["name"],
-                genus_species=form_json["genus_species"],
-                image=form_json["image"],
-                growing_zone=form_json["growing_zone"],
+                content=form_json["content"],
+                stars=form_json["stars"],
                 user_id=session["user_id"],
+                grocery_id=grocery.id,
             )
+            db.session.add(new_review)
+            db.session.commit()
+
+            response = make_response(
+                new_review.to_dict(),
+                201,
+            )
+            return response
+        except IntegrityError as e:
+            db.session.rollback()
+            return {"error": "An unexpected error has occurred"}, 500
+
         except ValueError as e:
-            abort(422, e.args[0])
-
-        db.session.add(new_plant)
-        db.session.commit()
-
-        response = make_response(
-            new_plant.to_dict(),
-            201,
-        )
-        return response
+            db.session.rollback()
+            return {"error": str(e)}, 422
+        finally:
+            db.session.close()
 
 
 api.add_resource(Reviews, "/api/groceries/<int:id>/reviews")
 
 
-# class PlantByID(Resource):
-#     def get(self, id):
-#         plant = Plant.query.filter_by(id=id).first()
-#         if not plant:
-#             raise NotFound
-#         response = make_response(plant.to_dict(), 200)
+class Orders(Resource):
+    def get(self):
+        order_list = [order.to_dict() for order in Order.query.all()]
+        response = make_response(order_list, 200)
+        return response
 
-#         return response
+    def post(self):
+        form_json = request.get_json()
+        try:
+            total_items = form_json["total_items"]
+            subtotal = form_json["subtotal"]
+            tax = form_json["tax"]
+            total_price = form_json["total_price"]
+            user_id = session.get("user_id")
+            grocery_ids = form_json.get(
+                "grocery_ids", []
+            )  # Get the selected grocery item IDs from local storage
 
-#     def patch(self, id):
-#         plant = Plant.query.filter_by(id=id).first()
-#         if not plant:
-#             raise NotFound
-#         if plant.user_id != session["user_id"]:
-#             abort(401, "Unauthorized")
-#         else:
-#             form_json = request.get_json()
-#             for attr in form_json:
-#                 setattr(plant, attr, form_json[attr])
+            new_order = Order(
+                total_items=total_items,
+                subtotal=subtotal,
+                tax=tax,
+                total_price=total_price,
+                user_id=user_id,
+            )
 
-#             db.session.add(plant)
-#             db.session.commit()
+            for grocery_id in grocery_ids:
+                grocery = Grocery.query.get(grocery_id)
+                if grocery:
+                    new_order.groceries.append(grocery)
 
-#             response = make_response(plant.to_dict(), 200)
-#             return response
+            db.session.add(new_order)
+            db.session.commit()
 
-#     def delete(self, id):
-#         plant = Plant.query.filter_by(id=id).first()
-#         if not plant:
-#             raise NotFound
-#         if plant.user_id != session["user_id"]:
-#             abort(401, "Unauthorized")
-#         db.session.delete(plant)
-#         db.session.commit()
+            response = make_response(new_order.to_dict(), 201)
+            return response
 
-#         response = make_response("Plant Deleted", 204)
+        except IntegrityError as e:
+            db.session.rollback()
+            return {"error": "An unexpected error has occurred"}, 500
 
-#         return response
-
-
-# api.add_resource(PlantByID, "/api/plants/<int:id>")
-
-
-# class ButterflyTag(Resource):
-#     def get(self, id):
-#         butterfly = Butterfly.query.get(id)
-#         if not butterfly:
-#             response = make_response({"error": "Butterfly not found"}, 404)
-#         else:
-#             tag_list = [tag.to_dict() for tag in butterfly.tags]
-#             response = make_response(tag_list, 200)
-#         return response
-
-#     def post(self, id):
-#         json = request.get_json()
-#         tag = Tag.query.filter_by(name=json["name"]).first()
-#         if not tag:
-#             tag = Tag(name=json["name"])
-#         butterfly = Butterfly.query.filter_by(id=id).first()
-#         butterfly.tags.append(tag)
-#         db.session.add(butterfly)
-#         db.session.commit()
-#         response = make_response(butterfly.to_dict(), 201)
-#         return response
+        except ValueError as e:
+            db.session.rollback()
+            return {"error": str(e)}, 422
+        finally:
+            db.session.close()
 
 
-# api.add_resource(ButterflyTag, "/api/butterflies/<int:id>/tag")
+api.add_resource(Orders, "/api/orders")
 
 
-# # these will be all front end React unique routes
-# @app.route("/")
-# @app.route("/authentication")
-# @app.route("/butterflies")
-# @app.route("/butterflies/:id")
-# @app.route("/butterflies/edit/:id")
-# @app.route("/butterflies/new")
-# @app.route("/plants")
-# @app.route("/plants/:id")
-# @app.route("/plants/new")
-# @app.route("/addtothegarden")
-# def index(id=0):
-#     return render_template("index.html")
+class OrderById(Resource):
+    def get(self, id):
+        order = Order.query.filter_by(id=id).first()
+        if not order:
+            return {"error": "The order you are looking for cannot be found"}, 404
+        response = make_response(order.to_dict(), 200)
+
+        return response
+
+    def delete(self, id):
+        order = Order.query.filter_by(id=id).first()
+        if not order:
+            return {"error": "The order you are looking for cannot be found"}, 404
+        user = User.query.get(session["user_id"])
+        if order.user_id != user.id:
+            return {"error": "You are not authorized to perform this action"}, 401
+
+        db.session.delete(order)
+        db.session.commit()
+
+        response = make_response("order deleted", 204)
+
+        return response
+
+
+api.add_resource(OrderById, "/api/orders/<int:id>")
+
+
+# these will be all front end React unique routes
+@app.route("/")
+@app.route("/about")
+@app.route("/authentication")
+@app.route("/groceries")
+@app.route("/groceries/:id")
+@app.route("/groceries/edit/:id")
+@app.route("/groceries/new")
+@app.route("/groceries/add_review")
+@app.route("/shopping_cart")
+@app.route("/checkout")
+@app.route("/contact_us")
+def index(id=0):
+    return render_template("index.html")
 
 
 if __name__ == "__main__":

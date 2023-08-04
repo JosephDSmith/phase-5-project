@@ -8,7 +8,7 @@ from faker import Faker
 
 # Local imports
 from config import db, app, bcrypt
-from models import User, Plant, Butterfly, Tag, butterfly_tags
+from models import User, Grocery, Review, Order, order_groceries
 
 if __name__ == "__main__":
     fake = Faker()
@@ -16,150 +16,152 @@ if __name__ == "__main__":
         print("Starting seed...")
 
         User.query.delete()
-        Plant.query.delete()
-        Butterfly.query.delete()
-        Tag.query.delete()
-        db.session.execute(butterfly_tags.delete())
+        Grocery.query.delete()
+        Review.query.delete()
+        Order.query.delete()
+        db.session.execute(order_groceries.delete())
         db.session.commit()
 
         users = []
-        butterflies = []
-        tags = []
-        plants = []
+        groceries = []
+        reviews = []
+        orders = []
 
-        u1 = User(username=fake.name(), email=fake.email())
-        u1.password_hash = bcrypt.generate_password_hash("password1").decode("utf-8")
+        u1 = User(
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
+            email=fake.email(),
+            address=fake.address(),
+            phone_number="1234567890",
+            is_admin=True,
+        )
+        u1.password_hash = bcrypt.generate_password_hash("Violin@0094").decode("utf-8")
 
         users.append(u1)
 
-        u2 = User(username=fake.name(), email=fake.email())
-        u2.password_hash = bcrypt.generate_password_hash("password1").decode("utf-8")
+        u2 = User(
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
+            email=fake.email(),
+            address=fake.address(),
+            phone_number="0987654321",
+            is_admin=False,
+        )
+        u2.password_hash = bcrypt.generate_password_hash("Violin@0094").decode("utf-8")
 
         users.append(u2)
 
-        u3 = User(username=fake.name(), email=fake.email())
-        u3.password_hash = bcrypt.generate_password_hash("password1").decode("utf-8")
+        u3 = User(
+            first_name=fake.first_name(),
+            last_name=fake.last_name(),
+            email=fake.email(),
+            address=fake.address(),
+            phone_number="4569874312",
+            is_admin=False,
+        )
+        u3.password_hash = bcrypt.generate_password_hash("Violin@0094").decode("utf-8")
 
         users.append(u3)
 
         db.session.add_all(users)
         db.session.commit()
 
-        t1 = Tag(name="beautiful")
-        tags.append(t1)
+        g1 = Grocery(
+            name="Apple",
+            image="https://cdn.pixabay.com/photo/2016/11/18/13/47/apple-1834639_1280.jpg",
+            category="Produce",
+            price="1.99",
+            user_id=1,
+        )
+        groceries.append(g1)
 
-        t2 = Tag(name="colorful")
-        tags.append(t2)
+        g2 = Grocery(
+            name="Bread",
+            image="https://cdn.pixabay.com/photo/2018/04/03/18/26/fresh-bread-3287600_1280.jpg",
+            category="Bakery",
+            price="4.99",
+            user_id=1,
+        )
+        groceries.append(g2)
 
-        t3 = Tag(name="rare")
-        tags.append(t3)
+        g3 = Grocery(
+            name="Lettuce",
+            image="https://cdn.pixabay.com/photo/2018/06/17/14/45/salad-3480650_1280.jpg",
+            category="Produce",
+            price="1.49",
+            user_id=1,
+        )
+        groceries.append(g3)
 
-        t4 = Tag(name="exotic")
-        tags.append(t4)
+        g4 = Grocery(
+            name="Milk",
+            image="https://cdn.pixabay.com/photo/2017/09/11/23/34/milk-bottle-2740848_1280.jpg",
+            category="Dairy",
+            price="3.49",
+            user_id=1,
+        )
+        groceries.append(g4)
 
-        db.session.add_all(tags)
+        g5 = Grocery(
+            name="2lbs Cubed Steak",
+            image="https://cdn.pixabay.com/photo/2019/12/20/14/44/meat-4708595_1280.jpg",
+            category="Meat",
+            price="14.99",
+            user_id=1,
+        )
+        groceries.append(g5)
+
+        db.session.add_all(groceries)
         db.session.commit()
 
-        b1 = Butterfly(
-            name="Monarch",
-            image="https://wallpaperaccess.com/full/527446.jpg",
+        r1 = Review(
+            content="Incredibly fresh - I love this product!",
+            stars=5,
             user_id=rc(users).id,
-            genus_species="Danaus plexippus",
-            conservation_status="endangered",
+            grocery_id=rc(groceries).id,
         )
-        butterflies.append(b1)
+        reviews.append(r1)
 
-        b2 = Butterfly(
-            name="Blue Morpho",
-            image="https://cdn.pixabay.com/photo/2013/06/30/18/56/butterfly-142506_1280.jpg",
+        r2 = Review(
+            content="Good quality as always!",
+            stars=4,
             user_id=rc(users).id,
-            genus_species="Morpho achilles",
-            conservation_status="not endangered",
+            grocery_id=rc(groceries).id,
         )
-        butterflies.append(b2)
+        reviews.append(r2)
 
-        b3 = Butterfly(
-            name="Glasswinged",
-            image="https://cdn.pixabay.com/photo/2021/04/28/17/53/glasswing-butterfly-6214689_1280.jpg",
+        r3 = Review(
+            content="Tasty and fresh, I highly reccommend.",
+            stars=5,
             user_id=rc(users).id,
-            genus_species="Greta oto",
-            conservation_status="not endangered",
+            grocery_id=rc(groceries).id,
         )
-        butterflies.append(b3)
+        reviews.append(r3)
 
-        b4 = Butterfly(
-            name="Saint Francis' satyr",
-            image="https://alchetron.com/cdn/saint-francis-satyr-4d941ecc-4836-47b5-bab2-b2e60a03362-resize-750.jpeg",
+        r4 = Review(
+            content="Not my favorite brand...wouldn't reccomend.",
+            stars=2,
             user_id=rc(users).id,
-            genus_species="Neonympha mitchellii francisci)",
-            conservation_status="endangered",
+            grocery_id=rc(groceries).id,
         )
-        butterflies.append(b4)
+        reviews.append(r4)
 
-        b5 = Butterfly(
-            name="Queen Alexandra's Birdwing",
-            image="https://miro.medium.com/v2/resize:fit:768/1*gZ0XvVXzEWSGeMLuRyspEw.jpeg",
-            user_id=rc(users).id,
-            genus_species="Ornithoptera alexandrae",
-            conservation_status="endangered",
-        )
-        butterflies.append(b5)
-
-        db.session.add_all(butterflies)
+        db.session.add_all(reviews)
         db.session.commit()
 
-        # 1
-        butterflies_with_tags = []
-
-        for b in butterflies:
-            b.tags.append(rc(tags))
-            butterflies_with_tags.append(b)
-
-        db.session.add_all(butterflies_with_tags)
-        db.session.commit()
-
-        # 2
-        # butterflies_with_tags = [b.tags.append(rc(tags)) for b in butterflies]
-        # db.session.add_all(butterflies_with_tags)
-        # db.session.commit()
-
-        p1 = Plant(
-            name="milkweed",
-            genus_species="Asclepias syriaca",
-            growing_zone="3-9",
-            image="https://cdn.pixabay.com/photo/2012/02/28/15/37/butterfly-18313_1280.jpg",
-            user_id=rc(users).id,
+        o1 = Order(
+            total_items=3,
+            subtotal=9.97,
+            tax=0.53,
+            total_price=10.50,
+            user_id=2,
         )
-        plants.append(p1)
+        o1.groceries.append(g2)
+        o1.groceries.append(g3)
+        o1.groceries.append(g4)
+        orders.append(o1)
 
-        p2 = Plant(
-            name="hyssop",
-            genus_species="Hyssopus officinalis",
-            growing_zone="3-9",
-            image="https://cdn.pixabay.com/photo/2021/08/18/17/58/fritillary-butterfly-6556180_1280.jpg",
-            user_id=rc(users).id,
-        )
-        plants.append(p2)
-
-        p3 = Plant(
-            name="asters",
-            genus_species="Aster amellus",
-            growing_zone="3-8",
-            image="https://cdn.pixabay.com/photo/2012/02/26/10/54/garden-17057_1280.jpg",
-            user_id=rc(users).id,
-        )
-        plants.append(p3)
-
-        p4 = Plant(
-            name="liatris",
-            genus_species="Liatris spicata",
-            growing_zone="3-8",
-            image="https://cdn.pixabay.com/photo/2018/05/23/11/19/liatris-3423800_1280.jpg",
-            user_id=rc(users).id,
-        )
-        plants.append(p4)
-
-        db.session.add_all(plants)
+        db.session.add_all(orders)
         db.session.commit()
 
         print("...data seeding complete!")

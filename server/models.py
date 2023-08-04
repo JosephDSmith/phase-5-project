@@ -3,6 +3,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 from better_profanity import profanity
 
+
 from config import db, bcrypt
 
 order_groceries = db.Table(
@@ -25,8 +26,9 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String)
     reviews = db.relationship("Review", backref="user")
     orders = db.relationship("Order", backref="user")
+    groceries = db.relationship("Grocery", backref="user")
 
-    serialize_rules = ("-reviews.user", "orders.user")
+    serialize_rules = ("-reviews.user", "-orders.user", "-groceries.user")
 
     def validate_password(self, password):
         password = password.strip()
@@ -100,7 +102,7 @@ class User(db.Model, SerializerMixin):
         return phone_number
 
     def __repr__(self):
-        return f"<Name:{self.username}, Email:{self.email}>"
+        return f"<First Name:{self.first_name}, Last Name: {self.last_name}, Email:{self.email}>"
 
 
 class Grocery(db.Model, SerializerMixin):
@@ -117,7 +119,11 @@ class Grocery(db.Model, SerializerMixin):
         "Order", secondary="order_groceries", back_populates="groceries"
     )
 
-    serialize_rules = ("-orders.groceries", "-user.groceries", "reviews.grocery")
+    serialize_rules = (
+        "-orders.groceries",
+        "-reviews.grocery",
+        "-user.groceries",
+    )
 
     ALLOWED_EXTENSIONS = ["png", "jpg", "jpeg", "gif"]
 
@@ -128,7 +134,7 @@ class Grocery(db.Model, SerializerMixin):
             raise ValueError("Grocery item must have a name")
         if len(name) > 50:
             raise ValueError("Name must not exceed 50 characters")
-        if not name.isalnum():
+        if not all(char.isalnum() or char.isspace() for char in name):
             raise ValueError("Grocery names must contain only letters or numbers")
         return name
 
@@ -178,7 +184,10 @@ class Review(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     grocery_id = db.Column(db.Integer, db.ForeignKey("groceries.id"), nullable=False)
 
-    serialize_rules = ("-user.reviews",)
+    serialize_rules = (
+        "-user.reviews",
+        "-grocery.reviews",
+    )
 
     @validates("content")
     def validates_content(self, key, content):
@@ -194,7 +203,7 @@ class Review(db.Model, SerializerMixin):
     @validates("stars")
     def validates_stars(self, key, stars):
         if not stars:
-            raise ValueError("Review must include star rating - 1 through 5")
+            raise ValueError("Review must include a star rating - 1 through 5")
         return stars
 
     def __repr__(self):
@@ -205,8 +214,8 @@ class Order(db.Model, SerializerMixin):
     __tablename__ = "orders"
 
     id = db.Column(db.Integer, primary_key=True)
-    items = db.Column(db.String, nullable=False)
     total_items = db.Column(db.Integer, nullable=False)
+    subtotal = db.Column(db.Float, nullable=False)
     tax = db.Column(db.Float, nullable=False)
     total_price = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
@@ -214,7 +223,7 @@ class Order(db.Model, SerializerMixin):
         "Grocery", secondary="order_groceries", back_populates="orders"
     )
 
-    serialize_rules = ("-groceries.orders",)
+    serialize_rules = ("-groceries", "user")
 
     @validates("items")
     def validates_items(self, key, items):
@@ -222,4 +231,4 @@ class Order(db.Model, SerializerMixin):
             raise ValueError("Order must contain at least one item")
 
     def __repr__(self):
-        return f"<Name:{self.name}>"
+        return f"<ID:{self.id}, Total Price: {self.total_price}>"
