@@ -24,9 +24,9 @@ class User(db.Model, SerializerMixin):
     phone_number = db.Column(db.String, nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
     _password_hash = db.Column(db.String)
-    reviews = db.relationship("Review", backref="user")
-    orders = db.relationship("Order", backref="user")
-    groceries = db.relationship("Grocery", backref="user")
+    reviews = db.relationship("Review", back_populates="user")
+    orders = db.relationship("Order", back_populates="user")
+    groceries = db.relationship("Grocery", back_populates="user")
 
     serialize_rules = ("-reviews.user", "-orders.user", "-groceries.user")
 
@@ -114,15 +114,22 @@ class Grocery(db.Model, SerializerMixin):
     category = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    reviews = db.relationship("Review", backref="grocery")
+    user = db.relationship("User", back_populates="groceries")
+    reviews = db.relationship("Review", back_populates="grocery")
     orders = db.relationship(
         "Order", secondary="order_groceries", back_populates="groceries"
     )
 
     serialize_rules = (
         "-orders.groceries",
+        "-orders.user",
+        "-orders.reviews",
         "-reviews.grocery",
+        "-reviews.user",
+        "-reviews.order",
         "-user.groceries",
+        "-user.reviews",
+        "-user.orders",
     )
 
     ALLOWED_EXTENSIONS = ["png", "jpg", "jpeg", "gif"]
@@ -182,11 +189,17 @@ class Review(db.Model, SerializerMixin):
     content = db.Column(db.String, nullable=False)
     stars = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user = db.relationship("User", back_populates="reviews")
     grocery_id = db.Column(db.Integer, db.ForeignKey("groceries.id"), nullable=False)
+    grocery = db.relationship("Grocery", back_populates="reviews")
 
     serialize_rules = (
         "-user.reviews",
         "-grocery.reviews",
+        "-grocery.user",
+        "-grocery.orders",
+        "-user.groceries",
+        "-user.orders",
     )
 
     @validates("content")
@@ -219,11 +232,19 @@ class Order(db.Model, SerializerMixin):
     tax = db.Column(db.Float, nullable=False)
     total_price = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user = db.relationship("User", back_populates="orders")
     groceries = db.relationship(
         "Grocery", secondary="order_groceries", back_populates="orders"
     )
 
-    serialize_rules = ("-groceries", "user")
+    serialize_rules = (
+        "-user.orders",
+        "-user.groceries",
+        "-user.reviews",
+        "-groceries.orders",
+        "-groceries.user",
+        "-groceries.reviews",
+    )
 
     @validates("items")
     def validates_items(self, key, items):
