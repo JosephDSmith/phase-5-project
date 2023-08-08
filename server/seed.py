@@ -30,7 +30,7 @@ if __name__ == "__main__":
         u1 = User(
             first_name=fake.first_name(),
             last_name=fake.last_name(),
-            email=fake.email(),
+            email="j@yahoo.com",
             address=fake.address(),
             phone_number="1234567890",
             is_admin=True,

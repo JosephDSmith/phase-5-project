@@ -6,7 +6,6 @@ function NavBar({ user, setUser }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-  
     fetch("/api/logout", {
       method: "DELETE",
     }).then((res) => {
@@ -43,8 +42,8 @@ function NavBar({ user, setUser }) {
   return (
     <div className="navWrapper">
       <NavLink to="/">
-          <img src={logo} alt="Logo" />{" "}
-        </NavLink>
+        <img src={logo} alt="Logo" />{" "}
+      </NavLink>
       <div className="navigation">
         <NavLink
           className={(navClass) => (navClass.isActive ? "active_link" : "")}
@@ -54,22 +53,19 @@ function NavBar({ user, setUser }) {
         </NavLink>
         <NavLink
           className={(navClass) => (navClass.isActive ? "active_link" : "")}
-          to="/butterflies"
+          to="/groceries"
         >
-          Butterfly Collection
+          Grocery Collection
         </NavLink>
-        <NavLink
-          className={(navClass) => (navClass.isActive ? "active_link" : "")}
-          to="/plants"
-        >
-          Plant Collection
-        </NavLink>
-        <NavLink
-          className={(navClass) => (navClass.isActive ? "active_link" : "")}
-          to="/addtothegarden"
-        >
-          Add to the Garden
-        </NavLink>
+
+        {user.is_admin && (
+          <NavLink
+            className={(navClass) => (navClass.isActive ? "active_link" : "")}
+            to="/addtothegarden"
+          >
+            Add a Grocery
+          </NavLink>
+        )}
         <NavLink
           className={(navClass) => (navClass.isActive ? "active_link" : "")}
           to="/authentication"

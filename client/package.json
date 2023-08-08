@@ -1,15 +1,15 @@
 {
-  "name": "phase-4-project",
+  "name": "phase-5-project",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8000",
   "dependencies": {
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "formik": "^2.2.9",
+    "http-proxy-middleware": "^2.0.6",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0" ,
+    "react-dom": "^18.1.0",
     "react-markdown": "^6.0.2",
     "react-router-dom": "^6.0.0",
     "react-scripts": "^5.0.1",

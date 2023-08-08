@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-function Home({ username, fetchUser }) {
+function Home({ first_name, fetchUser }) {
 
   useEffect(()=> {
     fetchUser();
@@ -9,8 +9,8 @@ function Home({ username, fetchUser }) {
   return (
     <div className="home">
       <h1>
-        {username && `Welcome to the butterfly garden ${username}!`}
-        {!username && "Welcome to the butterfly garden!"}
+        {first_name && `Welcome to the butterfly garden ${first_name}!`}
+        {!first_name && "Welcome to the butterfly garden!"}
       </h1>
 
       <h3>Basics of Butterfly Gardening</h3>
