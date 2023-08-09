@@ -2,10 +2,13 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/images/logo.png";
 
-function NavBar({ user, setUser }) {
+function NavBar({ user, setUser, cart }) {
+  
+  const total_items = cart.length
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    localStorage.removeItem("cart");
     fetch("/api/logout", {
       method: "DELETE",
     }).then((res) => {
@@ -72,6 +75,18 @@ function NavBar({ user, setUser }) {
           onClick={handleLogout}
         >
           Logout
+        </NavLink>
+        <NavLink
+          className={(navClass) => (navClass.isActive ? "active_link" : "")}
+          to="/cart"
+        >
+          Cart {total_items}
+        </NavLink>
+        <NavLink
+          className={(navClass) => (navClass.isActive ? "active_link" : "")}
+          to="/orders"
+        >
+          My Orders
         </NavLink>
       </div>
     </div>

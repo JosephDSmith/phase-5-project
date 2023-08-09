@@ -333,9 +333,10 @@ api.add_resource(OrderById, "/api/orders/<int:id>")
 @app.route("/groceries/:id")
 @app.route("/groceries/edit/:id")
 @app.route("/groceries/new")
-@app.route("/shopping_cart")
+@app.route("/cart")
 @app.route("/checkout")
 @app.route("/contact_us")
+@app.route("/orders")
 def index(id=0):
     return render_template("index.html")
 

@@ -1,9 +1,15 @@
-
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-function GroceryCard( {grocery} ) {
+function GroceryCard({ grocery, addItemToCart }) {
   const { name, image, id, price } = grocery;
-  
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      setIsAddedToCart(false);
+    };
+  }, []);
 
   return (
     <div className="grocery-card">
@@ -19,6 +25,14 @@ function GroceryCard( {grocery} ) {
             <p>{price}</p>
           </div>
         </Link>
+        <button
+          onClick={() => {
+            addItemToCart(grocery);
+            setIsAddedToCart(true)
+          }}
+        >
+          {isAddedToCart ? "Item Added to Cart!" : "Add To Cart"}
+        </button>
       </div>
     </div>
   );

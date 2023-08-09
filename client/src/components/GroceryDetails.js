@@ -2,9 +2,17 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { GroceriesContext } from "../context/GroceriesContext";
 
-function GroceryDetails({ user, handleEdit, isNotNewGrocery, setIsNotNewGrocery }) {
+function GroceryDetails({ user, handleEdit, isNotNewGrocery, setIsNotNewGrocery, addItemToCart }) {
   const { deleteGrocery } = useContext(GroceriesContext);
   const [deleting, setIsDeleting] = useState(false);
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      setIsAddedToCart(false);
+    };
+  }, []);
+  
   const [grocery, setGrocery] = useState({
     name: "",
     image: "",
@@ -104,6 +112,14 @@ function GroceryDetails({ user, handleEdit, isNotNewGrocery, setIsNotNewGrocery 
             <h3>
               Price: <span>${price}</span>
             </h3>
+            <button
+          onClick={() => {
+            addItemToCart(grocery);
+            setIsAddedToCart(true)
+          }}
+        >
+          {isAddedToCart ? "Item Added to Cart!" : "Add To Cart"}
+        </button>
           </div>
           <div className="review-container">
             <h3>

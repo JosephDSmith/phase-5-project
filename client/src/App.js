@@ -10,6 +10,9 @@ import NotFound from "./components/NotFound";
 import EditingGrocery from "./components/EditingGrocery";
 import Errors from "./components/Errors";
 import AdminPrivileges from "./components/AdminPrivileges";
+import Cart from "./components/Cart";
+import Checkout from "./components/Checkout";
+import Orders from "./components/Orders";
 import "./index.css";
 import Bottom from "./components/Bottom";
 import { GroceriesProvider } from "./context/GroceriesContext";
@@ -19,6 +22,8 @@ function App() {
   const [grocery_edit, setGroceryEdit] = useState(false);
   const [errors, setErrors] = useState(null);
   const [isNotNewGrocery, setIsNotNewGrocery] = useState(true);
+  const [cart, setCart] = useState([]);
+  
   const updateUser = (user) => setUser(user);
 
   const navigate = useNavigate();
@@ -44,6 +49,26 @@ function App() {
       }
     });
 
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      const parsedCart = JSON.parse(storedCart);
+      setCart(parsedCart);
+    } else {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+  }, []);
+
+  const updateCart = (updatedCart) => {
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  const addItemToCart = (item) => {
+    // store the item to localStorage
+    updateCart([...cart, item]);
+  };
+
   const handleEdit = (grocery) => {
     setGroceryEdit(grocery);
     navigate(`groceries/edit/${grocery.id}`);
@@ -52,7 +77,7 @@ function App() {
   if (!user)
     return (
       <>
-        <NavBar user={user} setUser={setUser} />
+        <NavBar user={user} setUser={setUser} cart={cart}/>
         <Errors errors={errors} />
         <Routes>
           <Route path="/" element={<Home fetchUser={fetchUser} />} />
@@ -72,7 +97,7 @@ function App() {
 
   return (
     <>
-      <NavBar user={user} setUser={setUser} />
+      <NavBar user={user} setUser={setUser} cart={cart}/>
 
       {user.is_admin && (
         <AdminPrivileges
@@ -98,7 +123,7 @@ function App() {
           <Route
             exact
             path="/groceries"
-            element={<GroceryCollection user={user} />}
+            element={<GroceryCollection user={user} addItemToCart={ addItemToCart } />}
           />
           <Route
             path="/groceries/:id"
@@ -108,6 +133,7 @@ function App() {
                 handleEdit={handleEdit}
                 isNotNewGrocery={isNotNewGrocery}
                 setIsNotNewGrocery={setIsNotNewGrocery}
+                addItemToCart={ addItemToCart }
               />
             }
           />
@@ -130,6 +156,9 @@ function App() {
               />
             }
           />
+          <Route path="/cart" element={<Cart cart={cart} />} />
+          <Route path="/checkout" element={<Checkout cart={cart}/>} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/groceries/*" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
