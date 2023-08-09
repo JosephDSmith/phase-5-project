@@ -6,9 +6,10 @@ import NavBar from "./components/NavBar";
 import GroceryCollection from "./components/GroceryCollection";
 import GroceryDetails from "./components/GroceryDetails";
 import GroceryForm from "./components/GroceryForm";
-import AddGrocery from "./components/AddGrocery";
+import NotFound from "./components/NotFound";
 import EditingGrocery from "./components/EditingGrocery";
 import Errors from "./components/Errors";
+import AdminPrivileges from "./components/AdminPrivileges";
 import "./index.css";
 import Bottom from "./components/Bottom";
 import { GroceriesProvider } from "./context/GroceriesContext";
@@ -17,15 +18,16 @@ function App() {
   const [user, setUser] = useState(null);
   const [grocery_edit, setGroceryEdit] = useState(false);
   const [errors, setErrors] = useState(null);
+  const [isNotNewGrocery, setIsNotNewGrocery] = useState(true);
   const updateUser = (user) => setUser(user);
 
   const navigate = useNavigate();
 
-  useEffect (()=> {
+  useEffect(() => {
     return () => {
       setErrors(null);
-    }
-  }, [])
+    };
+  }, []);
 
   useEffect(() => {
     fetchUser();
@@ -36,7 +38,6 @@ function App() {
       if (res.ok) {
         res.json().then((data) => {
           setUser(data);
-      
         });
       } else {
         setUser(null);
@@ -58,7 +59,11 @@ function App() {
           <Route
             path="/authentication"
             element={
-              <Authentication updateUser={updateUser} setErrors={setErrors} />
+              <Authentication
+                updateUser={updateUser}
+                setErrors={setErrors}
+                user={user}
+              />
             }
           />
         </Routes>
@@ -68,11 +73,21 @@ function App() {
   return (
     <>
       <NavBar user={user} setUser={setUser} />
+
+      {user.is_admin && (
+        <AdminPrivileges
+          first_name={user.first_name}
+          last_name={user.last_name}
+        />
+      )}
+      <Errors errors={errors} />
       <GroceriesProvider>
         <Routes>
           <Route
             path="/"
-            element={<Home username={user.first_name} fetchUser={fetchUser} />}
+            element={
+              <Home first_name={user.first_name} fetchUser={fetchUser} />
+            }
           />
           <Route
             path="/authentication"
@@ -87,7 +102,14 @@ function App() {
           />
           <Route
             path="/groceries/:id"
-            element={<GroceryDetails user={user} handleEdit={handleEdit} />}
+            element={
+              <GroceryDetails
+                user={user}
+                handleEdit={handleEdit}
+                isNotNewGrocery={isNotNewGrocery}
+                setIsNotNewGrocery={setIsNotNewGrocery}
+              />
+            }
           />
           <Route
             path="/groceries/edit/:id"
@@ -99,8 +121,17 @@ function App() {
             }
           />
           /
-          <Route path="/groceries/new" element={<GroceryForm setErrors={setErrors}/>} />
-          <Route path="/addgrocery" element={<AddGrocery />} />
+          <Route
+            path="/groceries/new"
+            element={
+              <GroceryForm
+                setErrors={setErrors}
+                setIsNotNewGrocery={setIsNotNewGrocery}
+              />
+            }
+          />
+          <Route path="/groceries/*" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </GroceriesProvider>
       <Bottom />

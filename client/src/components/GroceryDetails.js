@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { GroceriesContext } from "../context/GroceriesContext";
 
-function GroceryDetails({ user, handleEdit }) {
+function GroceryDetails({ user, handleEdit, isNotNewGrocery, setIsNotNewGrocery }) {
   const { deleteGrocery } = useContext(GroceriesContext);
   const [deleting, setIsDeleting] = useState(false);
   const [grocery, setGrocery] = useState({
@@ -15,6 +15,7 @@ function GroceryDetails({ user, handleEdit }) {
   const [reviews, setReviews] = useState([]);
   const [showReviews, setShowReviews] = useState(false);
   const [reviewInput, setReviewInput] = useState("");
+  const [starRating, setStarRating] = useState("");
 
   const addNewReview = (r) => {
     setReviews([...reviews, r]);
@@ -29,7 +30,8 @@ function GroceryDetails({ user, handleEdit }) {
   };
 
   const newReview = {
-    name: reviewInput,
+    content: reviewInput,
+    stars: starRating === "Select a rating" ? null : starRating, // Include the selected star rating
   };
 
   const handleReviewSubmit = (e) => {
@@ -45,11 +47,19 @@ function GroceryDetails({ user, handleEdit }) {
       .then((reviewToAdd) => {
         addNewReview(reviewToAdd);
         setReviewInput("");
+        setStarRating("Select a rating"); // Reset star rating to "Select a rating" after submission
       });
   };
 
   const params = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => {
+      !isNotNewGrocery && setIsNotNewGrocery(true);
+    };
+  }, []);
+
   useEffect(() => {
     fetch(`/api/groceries/${params.id}`).then((res) => {
       if (res.ok) {
@@ -99,11 +109,20 @@ function GroceryDetails({ user, handleEdit }) {
             <h3>
               Current user reviews:{" "}
               {reviews.map((review) => (
-                <span key={`${params.id}-${review.content}`}>{`${review.content} `}</span>
+                <div key={`${params.id}-${review.content}`}>
+                  <span>{`${review.content} `}</span>
+                  {Array.from({ length: review.stars }).map((_, index) => (
+                    <span key={index}>⭐️</span> // Replace with your star icon component or Unicode character
+                  ))}
+                  <span>
+                    by {review.user.first_name}
+                    {review.user.last_name}
+                  </span>
+                </div>
               ))}
             </h3>
           </div>
-          {user && user.is_admin === true && (
+          {user && user.is_admin === true && isNotNewGrocery &&(
             <div className="buttons">
               <button
                 className="edit-btn"
@@ -111,13 +130,13 @@ function GroceryDetails({ user, handleEdit }) {
                   handleEdit(grocery);
                 }}
               >
-                Edit
+                ADMIN: edit grocery item
               </button>
               <button
                 className="delete-btn"
                 onClick={() => setIsDeleting(true)}
               >
-                Delete
+                ADMIN: delete grocery item
               </button>
             </div>
           )}
@@ -127,18 +146,43 @@ function GroceryDetails({ user, handleEdit }) {
                 className="Review-btn"
                 onClick={() => setShowReviews((prevState) => !prevState)}
               >
-                Add a Review to this grocery item!
+                Add a Customer Review to this grocery item!
               </button>
             </div>
           )}
+          <div className="back-button">
+            <button onClick={() => navigate("/groceries")}>
+              Go back to groceries
+            </button>
+          </div>
           {showReviews && (
             <div className="Reviews-input">
               <input
                 type="text"
+                name="content"
                 value={reviewInput}
                 onChange={(e) => setReviewInput(e.target.value)}
               />
+              <label htmlFor="rating">Select a star rating:</label>
+              <select
+                id="rating"
+                name="rating"
+                value={starRating}
+                onChange={(e) => setStarRating(e.target.value)}
+              >
+                <option value="">Select a rating</option>
+                <option value="1">1 Star</option>
+                <option value="2">2 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="5">5 Stars</option>
+              </select>
               <button onClick={handleReviewSubmit}>Add your Review!</button>
+              <div className="back-button">
+        <button onClick={() => navigate('/groceries')}>
+          Go back to groceries
+        </button>
+      </div>
             </div>
           )}
         </>

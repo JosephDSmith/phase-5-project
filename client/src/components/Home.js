@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-function Home({ first_name, fetchUser }) {
+function Home({ first_name, fetchUser, user }) {
 
   useEffect(()=> {
     fetchUser();

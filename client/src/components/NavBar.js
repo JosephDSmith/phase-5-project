@@ -61,7 +61,7 @@ function NavBar({ user, setUser }) {
         {user.is_admin && (
           <NavLink
             className={(navClass) => (navClass.isActive ? "active_link" : "")}
-            to="/addtothegarden"
+            to="/groceries/new"
           >
             Add a Grocery
           </NavLink>

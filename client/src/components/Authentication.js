@@ -3,19 +3,47 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-function Authentication({ updateUser, setErrors }) {
+function Authentication({ user, updateUser, setErrors }) {
   const [signUp, setSignUp] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = () => setSignUp((signUp) => !signUp);
-  const formSchema = yup.object().shape({
+  // const formSchema = yup.object().shape({
+  //   loginSchema: yup.object().shape({
+  //     email: yup.string().email().required("Email is required"),
+  //     password: yup.string().required("Password is required"),
+  //   }),
+  //   signupSchema: yup.object().shape({
+  //     email: yup.string().email().required("Email is required"),
+  //     first_name: yup.string().required("First name required"),
+  //     last_name: yup.string().required("Last name required"),
+  //     address: yup.string().required("Address required"),
+  //     phone_number: yup.string().required("Phone number required"),
+  //     password: yup.string().required("Password is required"),
+  //     is_admin: yup.boolean(),
+  //   }),
+  // });
+  const loginSchema = yup.object().shape({
     email: yup.string().email().required("Email is required"),
+    password: yup.string().required("Password is required"),
+  });
+  const signUpSchema = yup.object().shape({
+    email: yup.string().email().required("Email is required"),
+    password: yup.string().required("Password is required"),
     first_name: yup.string().required("First name required"),
     last_name: yup.string().required("Last name required"),
     address: yup.string().required("Address required"),
     phone_number: yup.string().required("Phone number required"),
-    password: yup.string().required("Password is required"),
+    is_admin: yup.boolean(),
   });
+
+  // const renderSchema = () => {
+  //   if (signUp) {
+  //     return formSchema.loginSchema;
+  //   } else {
+  //     return formSchema.signupSchema;
+  //   }
+  // };
 
   const formik = useFormik({
     initialValues: {
@@ -25,8 +53,9 @@ function Authentication({ updateUser, setErrors }) {
       password: "",
       address: "",
       phone_number: "",
+      is_admin: false,
     },
-    validationSchema: formSchema,
+    validationSchema: signUp ? signUpSchema : loginSchema,
     onSubmit: (values, { resetForm }) => {
       fetch(signUp ? "/api/signup" : "/api/login", {
         method: "POST",
@@ -43,7 +72,8 @@ function Authentication({ updateUser, setErrors }) {
           });
         } else {
           res.json().then((errors) => {
-            setErrors(errors.error.message);
+            console.log(errors.error);
+            setErrors(errors.error);
             resetForm({
               values: formik.initialValues,
               validationSchema: formik.validationSchema,
@@ -79,6 +109,7 @@ function Authentication({ updateUser, setErrors }) {
         {formik.touched.password && formik.errors.password && (
           <div className="error">{formik.errors.password}</div>
         )}
+
         {signUp && (
           <>
             <label>First Name</label>
@@ -121,6 +152,15 @@ function Authentication({ updateUser, setErrors }) {
             {formik.touched.phone_number && formik.errors.phone_number && (
               <div className="error">{formik.errors.phone_number}</div>
             )}
+            {/* <label>Admin Status</label>
+            <select
+              name="is_admin"
+              value={formik.values.is_admin}
+              onChange={formik.handleChange}
+            >
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select> */}
           </>
         )}
         <button type="submit">{signUp ? "Sign Up!" : "Log In!"}</button>

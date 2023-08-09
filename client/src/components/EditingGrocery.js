@@ -36,7 +36,7 @@ function EditingGrocery({ grocery_edit, setErrors }) {
             navigate(`/grocery/${grocery.id}`);
           });
         } else {
-          res.json().then((errors) => setErrors(errors.message));
+          res.json().then((errors) => setErrors(errors.error));
         }
       });
     },

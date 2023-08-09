@@ -1,8 +1,10 @@
 import React from "react";
 
 const Errors = ({ errors }) => {
-  const displayErrors = <p>{errors}</p>;
+  const displayErrors = (
+    <p style={{ color: "red", fontWeight: "bold" }}>{errors}</p>
+  );
   return <>{errors ? displayErrors : null}</>;
 };
 
-export default Errors
+export default Errors;

@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { useContext } from "react";
 import { GroceriesContext } from "../context/GroceriesContext";
 
-function GroceryForm({ setErrors }) {
+function GroceryForm({ setErrors, setIsNotNewGrocery }) {
   const { addGrocery } = useContext(GroceriesContext);
   const navigate = useNavigate();
   const formSchema = yup.object().shape({
@@ -36,10 +36,11 @@ function GroceryForm({ setErrors }) {
         if (res.ok) {
           res.json().then((grocery) => {
             addGrocery(grocery);
+            setIsNotNewGrocery(false);
             navigate(`/groceries/${grocery.id}`);
           });
         } else {
-          res.json().then((errors) => setErrors(errors.error.message));
+          res.json().then((errors) => setErrors(errors.error));
         }
       });
     },
