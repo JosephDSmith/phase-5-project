@@ -42,7 +42,7 @@ if __name__ == "__main__":
         u2 = User(
             first_name=fake.first_name(),
             last_name=fake.last_name(),
-            email=fake.email(),
+            email="a@a.com",
             address=fake.address(),
             phone_number="0987654321",
             is_admin=False,
