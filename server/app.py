@@ -10,6 +10,7 @@ from flask_restful import Resource
 from werkzeug.exceptions import NotFound
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 import ipdb
+import stripe
 
 # # Local imports
 from config import app, db, api, bcrypt
@@ -263,6 +264,7 @@ class Orders(Resource):
             grocery_ids = form_json.get(
                 "grocery_ids", []
             )  # Get the selected grocery item IDs from local storage
+            grocery_ids_str = ",".join(map(str, grocery_ids))
 
             new_order = Order(
                 total_items=total_items,
@@ -277,7 +279,18 @@ class Orders(Resource):
                 if grocery:
                     new_order.groceries.append(grocery)
 
+            stripe.api_key = app.config["STRIPE_SECRET_KEY"]
+
+            payment_intent = stripe.PaymentIntent.create(
+                amount=int(float(total_price) * 100),  # Amount in cents
+                currency="usd",
+                metadata={"user_id": user_id, "grocery_ids": grocery_ids_str},
+            )
+
+            new_order.payment_intent_id = payment_intent.id
+
             db.session.add(new_order)
+            db.session.flush()
             db.session.commit()
 
             response = make_response(new_order.to_dict(), 201)
@@ -290,6 +303,9 @@ class Orders(Resource):
         except ValueError as e:
             db.session.rollback()
             return {"error": str(e)}, 422
+        except stripe.error.StripeError as e:
+            db.session.rollback()
+            return {"error": str(e)}, 500
         finally:
             db.session.close()
 
@@ -336,7 +352,7 @@ api.add_resource(OrderById, "/api/orders/<int:id>")
 @app.route("/cart")
 @app.route("/checkout")
 @app.route("/contact_us")
-@app.route("/orders")
+@app.route("/order")
 def index(id=0):
     return render_template("index.html")
 

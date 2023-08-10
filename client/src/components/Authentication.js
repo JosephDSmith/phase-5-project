@@ -72,7 +72,6 @@ function Authentication({ user, updateUser, setErrors }) {
           });
         } else {
           res.json().then((errors) => {
-            console.log(errors.error);
             setErrors(errors.error);
             resetForm({
               values: formik.initialValues,

@@ -29,10 +29,14 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    return () => {
+    const clearErrorsTimeout = setTimeout(() => {
       setErrors(null);
+    }, 5000); // Clear errors after 5 seconds
+
+    return () => {
+      clearTimeout(clearErrorsTimeout); // Cleanup timeout when component unmounts
     };
-  }, []);
+  }, [errors]);
 
   useEffect(() => {
     fetchUser();
@@ -157,7 +161,7 @@ function App() {
             }
           />
           <Route path="/cart" element={<Cart cart={cart} />} />
-          <Route path="/checkout" element={<Checkout cart={cart}/>} />
+          <Route path="/checkout" element={<Checkout setErrors={setErrors} setCart={setCart}/>} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/groceries/*" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />

@@ -26,6 +26,7 @@ app = Flask(
 )
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URI")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["STRIPE_SECRET_KEY"] = os.environ.get("STRIPE_SECRET_KEY")
 app.json.compact = False
 
 app.secret_key = os.environ.get("SESSION_KEY")
@@ -47,6 +48,3 @@ api = Api(app)
 CORS(app)
 
 bcrypt = Bcrypt(app)
-
-
-
