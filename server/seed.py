@@ -34,8 +34,9 @@ if __name__ == "__main__":
             address=fake.address(),
             phone_number="1234567890",
             is_admin=True,
+            password_hash="Violin@0094"
         )
-        u1.password_hash = bcrypt.generate_password_hash("Violin@0094").decode("utf-8")
+        # u1.password_hash = bcrypt.generate_password_hash("Violin@0094").decode("utf-8")
 
         users.append(u1)
 

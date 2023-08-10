@@ -8,7 +8,7 @@
 from flask import request, make_response, session, jsonify, abort, render_template
 from flask_restful import Resource
 from werkzeug.exceptions import NotFound
-from sqlalchemy.exc import SQLAlchemyError, IntegrityError
+from sqlalchemy.exc import IntegrityError
 import ipdb
 import stripe
 
