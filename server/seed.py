@@ -46,6 +46,7 @@ if __name__ == "__main__":
             email="a@a.com",
             address=fake.address(),
             phone_number="0987654321",
+            
             is_admin=False,
         )
         u2.password_hash = bcrypt.generate_password_hash("Violin@0094").decode("utf-8")
