@@ -6,23 +6,21 @@ https://grocery-store-app.onrender.com
 
 # Description:
 
-Butterfly Garden App is a web application that displays butterflies and butterfly-friendly plants, and allows users to access more detailed information about each butterfly and plant. Users can also contribute to the community butterfly collection or plant collection
+The Harvest Market App is a web application designed to connect farmers and consumers, providing a platform for buying and selling fresh, locally grown produce. Whether you're a farmer looking to showcase your harvest or a consumer seeking high-quality, farm-fresh products, this app brings the market to your fingertips.
 
 Features:
 
-- Users can create a new account and login - access to the butterfly garden is only available to users who are logged-in.
-- Users can access general information about butterflies, butterfly gardens, and how to promote butterfly colonies
-- Users can access the current community butterfly collection and plant collection.
-- Users can click on individual butterfly or plant for detailed information on each item.
-- Users can edit any details of butterflies created by the user.
-- Users can delete a butterfly created by the user.
-- Users can add a butterfly or plant to the collection.
+- User Authentication: Create a new account or log in to access the bustling marketplace of farm-fresh produce. User authentication ensures a secure and personalized experience.
+- Browse Listings: Explore a wide variety of locally grown fruits, vegetables, dairy products, and more. Find the freshest ingredients for your meals while supporting local farmers.
+- Product Details: Click on individual listings to access detailed information about each product.
+- Add to Cart: Easily add products to your cart for a seamless shopping experience. Review your selections before proceeding to checkout.
+- Checkout and Payment: Complete your purchase securely with integrated Stripe payment services provider.
 
 ## Usage Visuals
 
 App features :
 
-- Create and account, login, and logout:
+- Create an account, login, and logout:
 
 ![gif1](https://github.com/JosephDSmith/phase-4-project/assets/122189576/7dcc5c10-8cdd-4110-9abe-3eee0986ca1a)
 
@@ -30,15 +28,15 @@ App features :
 
 ![gif2](https://github.com/JosephDSmith/phase-4-project/assets/122189576/98283dea-9fb3-4d43-a68e-2f8fd9815a20)
 
-- Access and expand details for the butterfly collection:
+- Access and expand details for the groceries collection:
 
 ![gif3](https://github.com/JosephDSmith/phase-4-project/assets/122189576/e978dca7-81a7-4894-b565-f00d2402b6ec)
 
-- Edit an existing butterfly, or delete an existing butterfly from the collection.
+- Admin can add a new grocery item, edit an existing item, or delete a grocery item.
 
 ![gif4](https://github.com/JosephDSmith/phase-4-project/assets/122189576/60147c67-bb96-48cf-8dcf-51d35603710a)
 
-- Add a plant to the collection:
+- Users can checkout, pay for an order , and view details of past orders.
 
 ![gif5](https://github.com/JosephDSmith/phase-4-project/assets/122189576/2029e057-76d2-4182-99c7-0695e29a3ae0)
 
