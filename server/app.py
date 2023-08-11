@@ -313,32 +313,28 @@ class Orders(Resource):
 api.add_resource(Orders, "/api/orders")
 
 
-class OrderById(Resource):
-    def get(self, id):
-        order = Order.query.filter_by(id=id).first()
-        if not order:
-            return {"error": "The order you are looking for cannot be found"}, 404
-        response = make_response(order.to_dict(), 200)
+class OrderByUserId(Resource):
+    def get(self):
+        user_id = session.get("user_id")
+        if not user_id:
+            return {"message": "User not authenticated"}, 401
 
-        return response
+        order_list = [
+            o.to_dict()
+            for o in Order.query.filter_by(user_id=user_id).where(
+                Order.user_id == user_id
+            )
+        ]
 
-    def delete(self, id):
-        order = Order.query.filter_by(id=id).first()
-        if not order:
-            return {"error": "The order you are looking for cannot be found"}, 404
-        user = User.query.get(session["user_id"])
-        if order.user_id != user.id:
-            return {"error": "You are not authorized to perform this action"}, 401
+        if not order_list:
+            return {"message": "No orders found for this user"}, 200
 
-        db.session.delete(order)
-        db.session.commit()
-
-        response = make_response("order deleted", 204)
+        response = make_response(order_list, 200)
 
         return response
 
 
-api.add_resource(OrderById, "/api/orders/<int:id>")
+api.add_resource(OrderByUserId, "/api/orders")
 
 
 # these will be all front end React unique routes

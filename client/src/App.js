@@ -23,7 +23,7 @@ function App() {
   const [errors, setErrors] = useState(null);
   const [isNotNewGrocery, setIsNotNewGrocery] = useState(true);
   const [cart, setCart] = useState([]);
-  
+
   const updateUser = (user) => setUser(user);
 
   const navigate = useNavigate();
@@ -81,7 +81,7 @@ function App() {
   if (!user)
     return (
       <>
-        <NavBar user={user} setUser={setUser} cart={cart}/>
+        <NavBar user={user} setUser={setUser} cart={cart} />
         <Errors errors={errors} />
         <Routes>
           <Route path="/" element={<Home fetchUser={fetchUser} />} />
@@ -101,7 +101,7 @@ function App() {
 
   return (
     <>
-      <NavBar user={user} setUser={setUser} cart={cart}/>
+      <NavBar user={user} setUser={setUser} cart={cart} />
 
       {user.is_admin && (
         <AdminPrivileges
@@ -127,7 +127,9 @@ function App() {
           <Route
             exact
             path="/groceries"
-            element={<GroceryCollection user={user} addItemToCart={ addItemToCart } />}
+            element={
+              <GroceryCollection user={user} addItemToCart={addItemToCart} />
+            }
           />
           <Route
             path="/groceries/:id"
@@ -137,7 +139,7 @@ function App() {
                 handleEdit={handleEdit}
                 isNotNewGrocery={isNotNewGrocery}
                 setIsNotNewGrocery={setIsNotNewGrocery}
-                addItemToCart={ addItemToCart }
+                addItemToCart={addItemToCart}
               />
             }
           />
@@ -161,8 +163,14 @@ function App() {
             }
           />
           <Route path="/cart" element={<Cart cart={cart} />} />
-          <Route path="/checkout" element={<Checkout setErrors={setErrors} setCart={setCart}/>} />
-          <Route path="/orders" element={<Orders />} />
+          <Route
+            path="/checkout"
+            element={<Checkout setErrors={setErrors} setCart={setCart} />}
+          />
+          <Route
+            path="/orders"
+            element={<Orders fetchUser={fetchUser} user={user} />}
+          />
           <Route path="/groceries/*" element={<NotFound />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

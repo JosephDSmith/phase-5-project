@@ -1,25 +1,26 @@
 # Butterfly Garden App
 
-Butterfly Gardenb App for Phase 4 Project Assignment by Joseph D Smith 
+Harvest Market App for Phase 5 Project Assignment by Joseph D Smith
 
+https://grocery-store-app.onrender.com
 
-# Description:  
+# Description:
 
-Butterfly Garden App is a web application that displays butterflies and butterfly-friendly plants, and allows users to access more detailed information about each butterfly and plant. Users can also contribute to the community butterfly collection or plant collection  
+Butterfly Garden App is a web application that displays butterflies and butterfly-friendly plants, and allows users to access more detailed information about each butterfly and plant. Users can also contribute to the community butterfly collection or plant collection
 
-Features: 
+Features:
 
-- Users can create a new account and login - access to the butterfly garden is only available to users who are logged-in. 
-- Users can access general information about butterflies, butterfly gardens, and how to promote butterfly colonies 
-- Users can access the current community butterfly collection and plant collection.   
-- Users can click on individual butterfly or plant for detailed information on each item. 
-- Users can edit any details of butterflies created by the user. 
+- Users can create a new account and login - access to the butterfly garden is only available to users who are logged-in.
+- Users can access general information about butterflies, butterfly gardens, and how to promote butterfly colonies
+- Users can access the current community butterfly collection and plant collection.
+- Users can click on individual butterfly or plant for detailed information on each item.
+- Users can edit any details of butterflies created by the user.
 - Users can delete a butterfly created by the user.
 - Users can add a butterfly or plant to the collection.
 
 ## Usage Visuals
 
-App features : 
+App features :
 
 - Create and account, login, and logout:
 
@@ -29,7 +30,7 @@ App features :
 
 ![gif2](https://github.com/JosephDSmith/phase-4-project/assets/122189576/98283dea-9fb3-4d43-a68e-2f8fd9815a20)
 
-- Access and expand details for the butterfly collection:  
+- Access and expand details for the butterfly collection:
 
 ![gif3](https://github.com/JosephDSmith/phase-4-project/assets/122189576/e978dca7-81a7-4894-b565-f00d2402b6ec)
 
@@ -43,23 +44,23 @@ App features :
 
 ## Contributing
 
-Pull requests are welcome for reiew. 
-No major changes are allowed. 
+Pull requests are welcome for reiew.
+No major changes are allowed.
 
-Please reach out to support if you have any questions. 
+Please reach out to support if you have any questions.
 
 ## License
 
-Licensing is not being offered at this time. 
-For any questions, please reach out to our support team. 
+Licensing is not being offered at this time.
+For any questions, please reach out to our support team.
 
 ## References
 
-All images are fair use -- thanks to Butterfly-Conservation.org for the butterfly care information! 
+All images are fair use -- thanks to Butterfly-Conservation.org for the butterfly care information!
 
 ## Blog
 
-If you like what you see, check out my blog on Medium! 
+If you like what you see, check out my blog on Medium!
 https://medium.com/@joesmith40
 
 ## Support
