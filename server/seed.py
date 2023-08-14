@@ -20,6 +20,7 @@ if __name__ == "__main__":
         Review.query.delete()
         Order.query.delete()
         db.session.execute(order_groceries.delete())
+        db.session.flush()
         db.session.commit()
 
         users = []
@@ -34,7 +35,7 @@ if __name__ == "__main__":
             address=fake.address(),
             phone_number="1234567890",
             is_admin=True,
-            password_hash="Violin@0094"
+            password_hash="Violin@0094",
         )
         # u1.password_hash = bcrypt.generate_password_hash("Violin@0094").decode("utf-8")
 
@@ -46,7 +47,6 @@ if __name__ == "__main__":
             email="a@a.com",
             address=fake.address(),
             phone_number="0987654321",
-            
             is_admin=False,
         )
         u2.password_hash = bcrypt.generate_password_hash("Violin@0094").decode("utf-8")
@@ -66,11 +66,12 @@ if __name__ == "__main__":
         users.append(u3)
 
         db.session.add_all(users)
+        db.session.flush()
         db.session.commit()
 
         g1 = Grocery(
             name="Apple",
-            image="https://cdn.pixabay.com/photo/2016/11/18/13/47/apple-1834639_1280.jpg",
+            image="https://i5.walmartimages.com/seo/Red-Delicious-Apples-Each_7320e63a-de46-4a16-9b8c-526e15219a12_3.e557c1ad9973e1f76f512b34950243a3.jpeg",
             category="Produce",
             price="1.99",
             user_id=1,
@@ -79,7 +80,7 @@ if __name__ == "__main__":
 
         g2 = Grocery(
             name="Bread",
-            image="https://cdn.pixabay.com/photo/2018/04/03/18/26/fresh-bread-3287600_1280.jpg",
+            image="https://i5.walmartimages.com/asr/4c021455-4cf6-4b7c-812b-54663ed8253b_1.e37b219eaf92e31fa91884b8b0a4e4b1.jpeg",
             category="Bakery",
             price="4.99",
             user_id=1,
@@ -88,7 +89,7 @@ if __name__ == "__main__":
 
         g3 = Grocery(
             name="Lettuce",
-            image="https://cdn.pixabay.com/photo/2018/06/17/14/45/salad-3480650_1280.jpg",
+            image="https://i5.walmartimages.com/asr/c46b512d-6e44-4970-854f-0c26dcfcf01b.327c7d2a1bfa8c768ca7ecf8351a1762.jpeg",
             category="Produce",
             price="1.49",
             user_id=1,
@@ -96,8 +97,8 @@ if __name__ == "__main__":
         groceries.append(g3)
 
         g4 = Grocery(
-            name="Milk",
-            image="https://cdn.pixabay.com/photo/2017/09/11/23/34/milk-bottle-2740848_1280.jpg",
+            name="Fairlife Milk",
+            image="https://i5.walmartimages.com/seo/fairlife-Lactose-Free-2-Reduced-Fat-Ultra-Filtered-Milk-52-fl-oz_00fe0997-294b-4c11-ba0b-9eccebeedd3d.7fafc64183c2b93b4a7a0088685436d2.jpeg",
             category="Dairy",
             price="3.49",
             user_id=1,
@@ -105,8 +106,8 @@ if __name__ == "__main__":
         groceries.append(g4)
 
         g5 = Grocery(
-            name="2lbs Cubed Steak",
-            image="https://cdn.pixabay.com/photo/2019/12/20/14/44/meat-4708595_1280.jpg",
+            name="Monster Tomahawk Steak",
+            image="https://i5.walmartimages.com/asr/a6241175-ce36-460d-b378-d824954516b9.c37644643517be702749abf9eb66238b.jpeg",
             category="Meat",
             price="14.99",
             user_id=1,

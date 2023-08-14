@@ -29,17 +29,15 @@ span {
 }
 
 /* Nav */
-
 a {
     text-decoration: none;
     font-size: 1rem;
     font-weight: 500;
     text-transform: uppercase;
-    color: #39483a;
-}
-
-a:hover {
-    text-decoration: underline;
+    padding: .5rem;
+    color: #fff;
+    border-radius: 15px;
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
 button {
@@ -48,13 +46,13 @@ button {
     margin-top: 1rem;
     margin-right: 10px;
     border: none;
-    background-color: #556856;
+    background-color: #A3D821;
     color: #fff;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 button:hover {
-    background-color: #39483a;
+    background-color: #076325 ;
     cursor: pointer;
 }
 
@@ -75,31 +73,34 @@ label {
 
 .navWrapper {
     width: 100%;
-    min-height: 107px;
-    background-color: #39483a;
+    min-height: 100px;
+    background-color: #FF5733;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 0 1rem;
 }
 
 .navWrapper img, footer img {
-    max-width: 15em;
+    max-width: 16em;
     cursor: pointer;
 }
 
+.navWrapper img {
+    margin-bottom: 25px;
+}
+
+.navWrapper:hover {
+    background-color: none;
+}
+
 .navWrapper a {
-    color: #fff
+    color: #fff;
 }
 
-.logo a {
-    color: #40513B;
-}
-
-.navigation a.active_link {
-    color: #40513B;
+.navigation a.active_link, .ancor:hover{
+    color: #FF5733;
     background-color: #fff;
-    padding: .5rem;
     border-radius: 15px;
 }
 
@@ -117,112 +118,180 @@ label {
     max-height: 700px;
 }
 
-/* Home */
-
-.home {
-    width: 100%;
-    padding: 2rem;
+.fa-cart-shopping {
+    font-size: 1.5rem;
 }
 
-
-.home h3 {
+/* Admin */
+.admin h4{
+    margin-left: 2rem;
     margin-top: 2rem;
 }
 
-.home section {
+/* Home */
+
+.overlay-container {
     display: flex;
-    flex-direction: column;
+    position: relative;
+    width: 100%;
+    text-align: center;
     justify-content: center;
     align-items: center;
+
+  }
+
+.logo-home {
+    position: absolute;
+    z-index: 10;
+    max-height: 400px;
+    margin-bottom: 2rem;
+
 }
 
-.home section h4 {
-    margin: 2rem;
+.background {
+    background-color: #0a0a0a;
+    opacity: 0.8;
+    width: 100%;
+    height: 500px;
+    position: absolute;
 }
 
-.home section div {
-    display: flex;
-    padding-right: 2rem;
+.cart-image {
+    height: 500px;
 }
 
-.home section div .desc {
-    display: flex;
-    flex-direction: column;
+.overlay-container h1 {
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+
 }
 
-.home section div img {
-    height: 450px;
-    width: 300px;
+.sections {
+    padding: 2rem;
+    display: grid;
+    grid-template-areas: 
+    "meat produce deli";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 2rem;
+    cursor: pointer;
+}
+
+.sections img {
+    height: 200px;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 20px;
 }
 
-.home section div p {
-    margin-top: 1rem;
+.meat-section {
+    grid-area: meat;
+    position: relative;
 }
 
-/* ButterflyCollection */
+.produce-section {
+    grid-area: produce;
+    position: relative;
+}
 
-.butterfly-collection, .plant-collection {
+.deli-section {
+    grid-area: deli;
+    position: relative;
+}
+
+
+.info {
+    color: #fff;
+    font-size: 3rem;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    top: 20%;
+    left: 10%;
+    transition: top 0.3s ease; /* Add transition property for smooth effect */
+}
+.fa-solids{
+    margin-bottom: 1.5rem;
+}
+
+.info:hover {
+    top: 15%;
+}
+
+.info h6 {
+    margin-top: 5px;
+    font-size: 1rem;
+}
+
+.carousel h3 {
+    padding-left: 2rem;
+
+}
+
+/* grocery-collection */
+
+.grocery-collection {
     padding: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
-.butterfly-collection h1, .plant-collection h1{
+.grocery-collection h1{
     padding: 2rem;
 }
 
-.butterfly-container, .plant-container {
+.grocery-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    gap: 2rem;
 }
-/* ButterflyCard */
+/* GroceryCard */
 
-.butterfly-card, .plant-card{
+.grocery-card{
     margin: 1rem;
 }
 
-.butterfly-wrapper .details, .plant-wrapper .details {
+.grocery-card h3 {
+    font-size: .8rem;
+}
+
+.grocery-wrapper .details{
     display: flex;
     flex-direction: column;
     margin-top: 2rem;
 }
 
-.butterfly-wrapper .details div, .plant-wrapper .details div  {
+.grocery-wrapper .details div{
     display: flex;
 }
 
-
-
-.butterfly-wrapper .details p, .plant-wrapper .details p {
+.details p{
     font-style: italic;
     margin-right: .5rem;
     color: #333;
     font-size: 10px;
 }
 
-.butterfly-wrapper .details h4, .plant-wrapper .details h4 {
+.grocery-wrapper .details h4{
     color: #333;
     font-size: 12px;
 }
 
 .image-container {
     height: 200px;
-    width: 300px;
+    width: 200px;
     border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    overflow: hidden; /* Ensure the image stays within the container */
 }
 
-.image-container:hover {
-    border: 1px solid orange;
-}
-
-.butterfly-img, .plant-img{
+.grocery-img{
     /* Optionally, you can add additional styles to the image */
     width: 100%;
     height: 100%;
@@ -230,25 +299,23 @@ label {
     object-fit: cover; /* To make sure the image covers the container without stretching */
   }
 
-  .butterfly-img:hover, .plant-img:hover  {
+  .grocery-img:hover  {
     transform: scale(1.2);
   }
 
-  /* Butterfly-details */
-
-  .butterfly-details {
-    padding: 0 2rem;
-    padding-top: 2rem;
+  .grocery-wrapper h3 {
+    margin-top: 3rem;
   }
-  .butterfly-details img {
+  /* grocery-details */
+
+  .grocerydetails {
+    padding: 2rem;
+  }
+  .grocery-details img {
     max-width: 700px;
     height: auto;
     border-radius: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  }
-
-  .tags-container, .buttons, .tag-div, .tags-input{
-    padding-left: 2rem;
   }
 
   .edit-btn:hover {
@@ -260,24 +327,41 @@ label {
     background-color: red;
   }
 
-/* EditButterfly */
-.edit-butterfly {
+/* grocery form */
+
+.grocery-form, .orders-container, .cart-container {
+    height: 100vh;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.grocery-form form {
+    max-width: 600px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 1rem;
+    height: 400px;
+    border-radius: 25px;
+
+}
+/* editgrocery */
+.edit-grocery {
     padding: 2rem;
     display: flex;
     flex-direction: column;
 }
 
-.edit-butterfly form, .plant-form form, .butterfly-form form, .authentication form {
+.edit-grocery form, .grocery-form form, .authentication form {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.edit-butterfly form input, .plant-form form input, .butterfly-form form input, .authentication form input {
+.edit-grocery form input, .grocery-form form input, .authentication form input {
     width: 500px;
 }
 
-.edit-butterfly .cancel-btn {
+.edit-grocery .cancel-btn {
     width: 110px;
     align-self: center;
 }
@@ -287,7 +371,7 @@ label {
 }
 
 /* AddToGarden */
-.add-to-garden {
+.add-grocery {
     padding: 2rem;
     height: 100vh;
 }
@@ -332,18 +416,87 @@ label {
     cursor: pointer;
 }
 
+/* Order */
+
+.orders-container{
+    display: inline-block;
+    height: 100vh;
+}
+
+.cart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cart-container button {
+    margin-bottom: 1rem;
+}
+
+.cart-container ul, .cart-container li{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.cart-container img {
+    max-width: 200px;
+}
+
+/* Checkout */
+
+.checkout {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    max-width: 500px;
+    position: relative;
+}
+
+.checkout-wrapper {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+.complete {
+    position: absolute;
+    left: 70px;
+}
+
+.back-cart {
+    margin-top: 4rem;
+}
+
+
 /* Footer */
 footer {
     padding: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #39483a;
+    background-color: #FF5733;
     color: white;
+    margin-top: auto; /* Pushes the footer to the bottom */
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer; /* Adding cursor style to indicate it's clickable */
 }
 
-.social-media, .social-media ul {
+.logo-div {
     display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.logo-div img {
+    margin-right: 10px;
+}
+
+.social-media {
+    display: flex;
+    align-items: center;
 }
 
 .social-media h3 {
@@ -352,10 +505,23 @@ footer {
 
 ul {
     list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
 }
 
 ul li {
     margin-right: 10px;
 }
+
+/* Adding a hover effect to the NavLink */
+.logo-div:hover,
+.social-media:hover {
+    transition: background-color 0.3s ease-in-out;
+}
+
+
+
+
 
 

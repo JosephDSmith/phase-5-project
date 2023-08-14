@@ -41,7 +41,7 @@ const Checkout = ({ setErrors, setCart }) => {
         // Optionally clear the cart and order data from local storage
         localStorage.removeItem("cart");
         localStorage.removeItem("orderData");
-        setCart([])
+        setCart([]);
         navigate("/orders"); // Redirect to orders page
       } else {
         response.json().then((errors) => setErrors(errors.error));
@@ -50,22 +50,24 @@ const Checkout = ({ setErrors, setCart }) => {
   };
 
   return (
-    <div>
-      <h2>Order Summary</h2>
-      <p>Total Items: {orderData.total_items}</p>
-      <p>Subtotal: ${orderData.subtotal}</p>
-      <p>Tax: ${orderData.tax} </p>
-      <h2>Total Price: ${orderData.total_price}</h2>
+    <div className="checkout-wrapper">
+      <div className="checkout">
+        <h2>Order Summary</h2>
+        <p>Total Items: {orderData.total_items}</p>
+        <p>Subtotal: ${orderData.subtotal}</p>
+        <p>Tax: ${orderData.tax} </p>
+        <h2>Total Price: ${orderData.total_price}</h2>
 
-      {/* Stripe Payment Form */}
-      <form onSubmit={handlePaymentSubmit}>
-        <CardElement />
-        <button type="submit">Complete Order</button>
-      </form>
+        {/* Stripe Payment Form */}
+        <form onSubmit={handlePaymentSubmit}>
+          <CardElement className="cardelement" />
+          <button className="complete" type="submit">Complete Order</button>
+        </form>
 
-      <button onClick={handleBackToCart}>Back to Cart</button>
+        <button className="back-cart" onClick={handleBackToCart}>Back to Cart</button>
+      </div>
     </div>
   );
 };
 
-export default Checkout
+export default Checkout;

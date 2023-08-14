@@ -17,21 +17,17 @@ function Orders({ fetchUser, user }) {
   const userOrders = orders.filter((order) => order.user_id === user.id);
 
   return (
-    <>
+    <div className="orders-container">
       <h2>Order History</h2>
-      <div className="orders-container">
-        <ul>
-          {userOrders.map((order, idx) => (
-            <li key={idx}>
-              Order ID: {order.id}
-              Total Items: {order.total_items}
-              Total Price: {order.total_price}
-              {/* Display other order details as needed */}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+      <ul>
+        {userOrders.map((order, idx) => (
+          <li key={idx}>
+            Order ID: {order.id} - Total Items: {order.total_items} - Total Price: ${order.total_price}
+            {/* Display other order details as needed */}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

@@ -4,7 +4,10 @@ function AdminPrivaleges( {first_name, last_name} ) {
   
   return (
    
-    <div>{`User:${first_name} ${last_name} Currently has Administrative Privileges`}</div>
+    <div className='admin'>
+      <h4>
+      {`User: ${first_name} ${last_name} Currently has Administrative Privileges`}
+      </h4></div>
   )
 }
 

@@ -28,19 +28,26 @@ const Cart = ({ cart, setOrderData }) => {
   };
 
   return (
-    <>
-      <ul>
-        {cart.map((grocery, idx) => (
-          <li key={idx}>
-            {grocery.name} <img src={grocery.image} alt={grocery.name} />{" "}
-            {grocery.price}
-          </li>
-        ))}
-      </ul>
-      <p>Subtotal: ${subtotal}</p>
-      <p>(Tax and Total calculated at checkout)</p>
-      <button onClick={handleCheckout}>Checkout</button>
-    </>
+    <div className="cart-container">
+      {cart.length === 0 ? (
+        <p>Cart is empty</p>
+      ) : (
+        <>
+          <ul>
+            {cart.map((grocery, idx) => (
+              <li key={idx}>
+                <img src={grocery.image} alt={grocery.name} />{" "}
+                {grocery.name} 
+                <h4>Price: {grocery.price}</h4>
+              </li>
+            ))}
+          </ul>
+          <p>Subtotal: ${subtotal}</p>
+          <p>(Tax and Total calculated at checkout)</p>
+          <button onClick={handleCheckout}>Checkout</button>
+        </>
+      )}
+    </div>
   );
 };
 

@@ -78,13 +78,15 @@ function App() {
     navigate(`groceries/edit/${grocery.id}`);
   };
 
+
   if (!user)
     return (
       <>
         <NavBar user={user} setUser={setUser} cart={cart} />
         <Errors errors={errors} />
+        <GroceriesProvider>
         <Routes>
-          <Route path="/" element={<Home fetchUser={fetchUser} />} />
+          <Route path="/" element={<Home fetchUser={fetchUser} addItemToCart={addItemToCart} user={user}/>} />
           <Route
             path="/authentication"
             element={
@@ -95,7 +97,9 @@ function App() {
               />
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
+        </GroceriesProvider>
       </>
     );
 
@@ -115,7 +119,7 @@ function App() {
           <Route
             path="/"
             element={
-              <Home first_name={user.first_name} fetchUser={fetchUser} />
+              <Home first_name={user.first_name} fetchUser={fetchUser} addItemToCart={addItemToCart} />
             }
           />
           <Route
@@ -128,7 +132,7 @@ function App() {
             exact
             path="/groceries"
             element={
-              <GroceryCollection user={user} addItemToCart={addItemToCart} />
+              <GroceryCollection user={user} addItemToCart={addItemToCart} fetchUser={fetchUser}/>
             }
           />
           <Route

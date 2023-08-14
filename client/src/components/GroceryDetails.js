@@ -2,7 +2,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { GroceriesContext } from "../context/GroceriesContext";
 
-function GroceryDetails({ user, handleEdit, isNotNewGrocery, setIsNotNewGrocery, addItemToCart }) {
+function GroceryDetails({
+  user,
+  handleEdit,
+  isNotNewGrocery,
+  setIsNotNewGrocery,
+  addItemToCart,
+}) {
   const { deleteGrocery } = useContext(GroceriesContext);
   const [deleting, setIsDeleting] = useState(false);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
@@ -12,7 +18,7 @@ function GroceryDetails({ user, handleEdit, isNotNewGrocery, setIsNotNewGrocery,
       setIsAddedToCart(false);
     };
   }, []);
-  
+
   const [grocery, setGrocery] = useState({
     name: "",
     image: "",
@@ -92,7 +98,7 @@ function GroceryDetails({ user, handleEdit, isNotNewGrocery, setIsNotNewGrocery,
 
   if (error) return <h2>{error}</h2>;
   return (
-    <>
+    <div className="grocerydetails">
       {deleting ? (
         <>
           <h1>Are you sure you want to delete this grocery item?</h1>
@@ -102,10 +108,10 @@ function GroceryDetails({ user, handleEdit, isNotNewGrocery, setIsNotNewGrocery,
       ) : (
         <>
           <div className="grocery-details">
+            <img src={image} alt="butterfly image" />
             <h3>
               Name: <span>{name}</span>
             </h3>
-            <img src={image} alt="butterfly image" />
             <h3>
               Category: <span>{category}</span>
             </h3>
@@ -113,13 +119,13 @@ function GroceryDetails({ user, handleEdit, isNotNewGrocery, setIsNotNewGrocery,
               Price: <span>${price}</span>
             </h3>
             <button
-          onClick={() => {
-            addItemToCart(grocery);
-            setIsAddedToCart(true)
-          }}
-        >
-          {isAddedToCart ? "Item Added to Cart!" : "Add To Cart"}
-        </button>
+              onClick={() => {
+                addItemToCart(grocery);
+                setIsAddedToCart(true);
+              }}
+            >
+              {isAddedToCart ? "Item Added to Cart!" : "Add To Cart"}
+            </button>
           </div>
           <div className="review-container">
             <h3>
@@ -131,14 +137,13 @@ function GroceryDetails({ user, handleEdit, isNotNewGrocery, setIsNotNewGrocery,
                     <span key={index}>⭐️</span> // Replace with your star icon component or Unicode character
                   ))}
                   <span>
-                    by {review.user.first_name}
-                    {review.user.last_name}
+                    by {review.user.first_name} {review.user.last_name}
                   </span>
                 </div>
               ))}
             </h3>
           </div>
-          {user && user.is_admin === true && isNotNewGrocery &&(
+          {user && user.is_admin === true && isNotNewGrocery && (
             <div className="buttons">
               <button
                 className="edit-btn"
@@ -195,15 +200,15 @@ function GroceryDetails({ user, handleEdit, isNotNewGrocery, setIsNotNewGrocery,
               </select>
               <button onClick={handleReviewSubmit}>Add your Review!</button>
               <div className="back-button">
-        <button onClick={() => navigate('/groceries')}>
-          Go back to groceries
-        </button>
-      </div>
+                <button onClick={() => navigate("/groceries")}>
+                  Go back to groceries
+                </button>
+              </div>
             </div>
           )}
         </>
       )}
-    </>
+    </div>
   );
 }
 export default GroceryDetails;

@@ -22,18 +22,20 @@ function NavBar({ user, setUser, cart }) {
   if (!user)
     return (
       <div className="navWrapper">
+        <div className="logo-div">
         <NavLink to="/">
-          <img src={logo} alt="Logo" />{" "}
+        <img src={logo} alt="Logo" />{" "}
         </NavLink>
+        </div>
         <div className="navigation">
           <NavLink
-            className={(navClass) => (navClass.isActive ? "active_link" : "")}
+            className={(navClass) => (navClass.isActive ? "active_link" : "ancor")}
             to="/"
           >
             Home
           </NavLink>
           <NavLink
-            className={(navClass) => (navClass.isActive ? "active_link" : "")}
+            className={(navClass) => (navClass.isActive ? "active_link" : "ancor")}
             to="/authentication"
           >
             Login
@@ -45,17 +47,19 @@ function NavBar({ user, setUser, cart }) {
   return (
     <div className="navWrapper">
       <NavLink to="/">
+        <div className="logo-div">
         <img src={logo} alt="Logo" />{" "}
+        </div>
       </NavLink>
       <div className="navigation">
         <NavLink
-          className={(navClass) => (navClass.isActive ? "active_link" : "")}
+          className={(navClass) => (navClass.isActive ? "active_link" : "ancor")}
           to="/"
         >
           Home
         </NavLink>
         <NavLink
-          className={(navClass) => (navClass.isActive ? "active_link" : "")}
+          className={(navClass) => (navClass.isActive ? "active_link" : "ancor")}
           to="/groceries"
         >
           Grocery Collection
@@ -63,30 +67,30 @@ function NavBar({ user, setUser, cart }) {
 
         {user.is_admin && (
           <NavLink
-            className={(navClass) => (navClass.isActive ? "active_link" : "")}
+            className={(navClass) => (navClass.isActive ? "active_link" : "ancor")}
             to="/groceries/new"
           >
             Add a Grocery
           </NavLink>
         )}
         <NavLink
-          className={(navClass) => (navClass.isActive ? "active_link" : "")}
+          className={(navClass) => (navClass.isActive ? "active_link" : "ancor")}
+          to="/orders"
+        >
+          My Orders
+        </NavLink>
+        <NavLink
+          className={(navClass) => (navClass.isActive ? "active_link" : "ancor")}
+          to="/cart"
+        >
+          <i className="fa-solid fa-cart-shopping"></i> {total_items}
+        </NavLink>
+        <NavLink
+          className={(navClass) => (navClass.isActive ? "active_link" : "ancor")}
           to="/authentication"
           onClick={handleLogout}
         >
           Logout
-        </NavLink>
-        <NavLink
-          className={(navClass) => (navClass.isActive ? "active_link" : "")}
-          to="/cart"
-        >
-          Cart {total_items}
-        </NavLink>
-        <NavLink
-          className={(navClass) => (navClass.isActive ? "active_link" : "")}
-          to="/orders"
-        >
-          My Orders
         </NavLink>
       </div>
     </div>
