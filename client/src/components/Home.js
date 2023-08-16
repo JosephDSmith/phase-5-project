@@ -48,7 +48,7 @@ function Home({ first_name, fetchUser, user, addItemToCart }) {
   return (
     <div className="home">
       <h1>
-        {first_name && `Welcome to the farmer's market! ${first_name}!`}
+        {first_name && `Welcome to the farmer's market ${first_name}!`}
         {!first_name && "Welcome to the farmer's market!"}
       </h1>
       <section className="hero-section">
@@ -96,15 +96,15 @@ function Home({ first_name, fetchUser, user, addItemToCart }) {
       <section className="carousel">
         <h3>Our Produce</h3>
         <Carousel responsive={responsive} infinite={true}>
-                {groceries.map((grocery) => (
-                  <GroceryCard
-                    key={grocery.id}
-                    grocery={grocery}
-                    addItemToCart={addItemToCart}
-                    fetchUser={fetchUser}
-                    user={user}
-                  />
-                ))}
+          {groceries.map((grocery) => (
+            <GroceryCard
+              key={grocery.id}
+              grocery={grocery}
+              addItemToCart={addItemToCart}
+              fetchUser={fetchUser}
+              user={user}
+            />
+          ))}
         </Carousel>
       </section>
     </div>
