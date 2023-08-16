@@ -48,8 +48,8 @@ function Home({ first_name, fetchUser, user, addItemToCart }) {
   return (
     <div className="home">
       <h1>
-        {first_name && `Welcome to the farmer's market ${first_name}!`}
-        {!first_name && "Welcome to the farmer's market!"}
+        {first_name && `Welcome to the farmers market ${first_name}!`}
+        {!first_name && "Welcome to the farmers market!"}
       </h1>
       <section className="hero-section">
         <div className="overlay-container">
